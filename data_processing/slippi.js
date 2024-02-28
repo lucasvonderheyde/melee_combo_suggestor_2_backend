@@ -17,6 +17,7 @@ function writeToJson(filename, data) {
 
 const settings = game.getSettings()
 const metadata = game.getMetadata()
+const frames = game.getFrames();
 
 
 const metadataPlayers = metadata.players
@@ -25,6 +26,7 @@ const lowerportMetadataCharacters = metadataPlayers[0].characters
 const higherportMetadataNames = metadataPlayers[1].names
 const higherportMetadataCharacters = metadataPlayers[1].characters
 const lastFrame = metadata.lastFrame
+console.log(lastFrame)
 
 const players = settings.players
 const gameInfo = settings.gameInfoBlock
@@ -35,6 +37,24 @@ delete metadata.players
 delete settings.players 
 delete settings.gameInfoBlock
 delete settings.matchInfo
+
+const lowerportPlayerPreFrames = []
+const lowerportPlayerPostFrames = []
+const higherportPlayerPreFrames = []
+const higherportPlayerPostFrames = []
+
+let frameIndex = 0
+
+console.log(frames[0].players[0].pre)
+
+while (frameIndex <= lastFrame) {
+    lowerportPlayerPreFrames.push(frames[frameIndex].players[0].pre)
+    lowerportPlayerPostFrames.push(frames[frameIndex].players[0].post)
+    higherportPlayerPreFrames.push(frames[frameIndex].players[1].pre)
+    higherportPlayerPostFrames.push(frames[frameIndex].players[1].post)
+    frameIndex ++
+}
+
 
 const metadataFilename = `metadata_${gameUuid}.json`
 const lowerportMetadataCharactersFilename = `lowerportMetadataCharacters_${gameUuid}.json`
@@ -48,11 +68,12 @@ const playersFilename = `players_${gameUuid}.json`
 const gameInfoBlockFilename = `gameInfoBlock_${gameUuid}.json`
 const matchInfoFilename = `matchInfo_${gameUuid}.json`
 
+
 // writeToJson(metadataFilename, metadata)
-writeToJson(lowerportMetadataCharactersFilename, lowerportMetadataCharacters)
-writeToJson(lowerportMetadataNamesFilename, lowerportMetadataNames)
-writeToJson(higherportMetadataCharactersFilename, higherportMetadataCharacters)
-writeToJson(higherportMetadataNamesFilename, higherportMetadataNames)
+// writeToJson(lowerportMetadataCharactersFilename, lowerportMetadataCharacters)
+// writeToJson(lowerportMetadataNamesFilename, lowerportMetadataNames)
+// writeToJson(higherportMetadataCharactersFilename, higherportMetadataCharacters)
+// writeToJson(higherportMetadataNamesFilename, higherportMetadataNames)
 
 
 // writeToJson(settingsFilename, settings)
@@ -60,8 +81,4 @@ writeToJson(higherportMetadataNamesFilename, higherportMetadataNames)
 // writeToJson(gameInfoBlockFilename, gameInfo)
 // writeToJson(matchInfoFilename, matchInfo)
 
-
-// Get frames – animation state, inputs, etc
-// This is used to compute your own stats or get more frame-specific info (advanced)
-const frames = game.getFrames();
-// console.log(frames[0].players); // Print frame when timer starts counting down
+// console.log(frames[0].players);
