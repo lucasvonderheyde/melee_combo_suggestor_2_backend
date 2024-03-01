@@ -1,16 +1,27 @@
 const { SlippiGame } = require("@slippi/slippi-js")
+const {Storage} = require('@google-cloud/storage');
+require('dotenv').config();
+
 const fs = require('fs')
-const uuid = require('uuid')
+const uuid = require('uuid');
 
+const storage = new Storage();
+const myBucketName = 'melee-combo-suggestor-2-slippi-storage'
 const game = new SlippiGame("test.slp")
+const gameUuid = uuid.v4()
 
-gameUuid = uuid.v4()
+async function uploadJsonToGCS(filename, jsonData) {
+    const bucket = storage.bucket(myBucketName); 
+    const file = bucket.file(filename);
+    const contents = JSON.stringify(jsonData, null, 2);
 
-function writeToJson(filename, data) {
-    fs.writeFile(filename, JSON.stringify(data, null, 2), (err) => {
-        if (err) throw err;
-        console.log(`${filename} has been saved.`)
+    await file.save(contents, {
+        metadata: {
+            contentType: 'application/json',
+        },
     });
+
+    console.log(`${filename} uploaded to ${myBucketName}.`); 
 }
 
 const settings = game.getSettings()
@@ -66,18 +77,16 @@ const gameInfoBlockFilename = `gameInfoBlock_${gameUuid}.json`
 const matchInfoFilename = `matchInfo_${gameUuid}.json`
 
 
-writeToJson(metadataFilename, metadata)
-writeToJson(lowerportMetadataCharactersFilename, lowerportMetadataCharacters)
-writeToJson(lowerportMetadataNamesFilename, lowerportMetadataNames)
-writeToJson(higherportMetadataCharactersFilename, higherportMetadataCharacters)
-writeToJson(higherportMetadataNamesFilename, higherportMetadataNames)
-writeToJson(settingsFilename, settings)
-writeToJson(playersFilename, players)
-writeToJson(gameInfoBlockFilename, gameInfo)
-writeToJson(matchInfoFilename, matchInfo)
-writeToJson(lowerportPlayerPreFramesFilename, lowerportPlayerPreFrames)
-writeToJson(lowerportPlayerPostFramesFilename, lowerportPlayerPostFrames)
-writeToJson(higherportPlayerPreFramesFilename, higherportPlayerPreFrames)
-writeToJson(higherportPlayerPostFramesFilename, higherportPlayerPostFrames)
-
-// console.log(frames[0].players);
+uploadJsonToGCS(metadataFilename, metadata)
+uploadJsonToGCS(lowerportMetadataCharactersFilename, lowerportMetadataCharacters)
+uploadJsonToGCS(lowerportMetadataNamesFilename, lowerportMetadataNames)
+uploadJsonToGCS(higherportMetadataCharactersFilename, higherportMetadataCharacters)
+uploadJsonToGCS(higherportMetadataNamesFilename, higherportMetadataNames)
+uploadJsonToGCS(settingsFilename, settings)
+uploadJsonToGCS(playersFilename, players)
+uploadJsonToGCS(gameInfoBlockFilename, gameInfo)
+uploadJsonToGCS(matchInfoFilename, matchInfo)
+uploadJsonToGCS(lowerportPlayerPreFramesFilename, lowerportPlayerPreFrames)
+uploadJsonToGCS(lowerportPlayerPostFramesFilename, lowerportPlayerPostFrames)
+uploadJsonToGCS(higherportPlayerPreFramesFilename, higherportPlayerPreFrames)
+uploadJsonToGCS(higherportPlayerPostFramesFilename, higherportPlayerPostFrames)
