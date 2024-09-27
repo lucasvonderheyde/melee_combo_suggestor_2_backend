@@ -1,8 +1,11 @@
 {
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.621.0",
     "@google-cloud/storage": "^7.7.0",
     "@slippi/slippi-js": "^6.7.0",
+    "aws": "^0.0.3-2",
     "dotenv": "^16.4.5",
+    "sdk": "^0.5.0",
     "uuid": "^9.0.1"
   }
 }
