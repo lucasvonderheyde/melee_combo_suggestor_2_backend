@@ -5,6 +5,8 @@ venv
 #data prep
 dataframe_prep.ipynb
 validation_dataframe.html
+melee_combo_evaluator_2_test.slp
 
 #Uncdecided files
 slippiAws.js
+ 
