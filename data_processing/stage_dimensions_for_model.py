@@ -1,9 +1,9 @@
 stages = {
     'battlefield': {
         'negative_x': -224,
-        'negative_y': 200,
+        'negative_y': -108.80,
         'positive_x': 224,
-        'positive_y': -108.80
+        'positive_y': 200
     },
     'dreamland': {
         'negative_x': 0,

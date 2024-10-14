@@ -1,6 +1,10 @@
-node_modules
+#node_modules
 .env
 venv
 
+#data prep
 dataframe_prep.ipynb
 validation_dataframe.html
+
+#Uncdecided files
+slippiAws.js
